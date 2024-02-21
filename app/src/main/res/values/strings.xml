@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ToDoList</string>
+    <string name="welcome">Bienvenido!!</string>
+    <string name="begin">Ingresar</string>
+    <string name="register">Registrarse</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="emailHint">Correo:</string>
+    <string name="passwordHint">Contraseña:</string>
+    <string name="nameHint">Nombre:</string>
+    <string name="lastNameHint">Apellido</string>
+    <string name="userNameHint">Nombre de usuario:</string>
+    <string name="bornDateHint">Fecha de nacimiento:</string>
+    <string name="confirmPasswordHint">Confirma tu contraseña:</string>
+    <string name="signUp">Registrarse</string>
+
+</resources>
