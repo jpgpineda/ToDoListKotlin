@@ -13,5 +13,6 @@
     <string name="bornDateHint">Fecha de nacimiento:</string>
     <string name="confirmPasswordHint">Confirma tu contraseña:</string>
     <string name="signUp">Registrarse</string>
+    <string name="required">Obligatorio</string>
 
 </resources>
