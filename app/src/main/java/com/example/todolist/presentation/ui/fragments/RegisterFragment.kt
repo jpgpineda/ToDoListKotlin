@@ -11,15 +11,19 @@ import android.widget.ImageView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import com.example.todolist.data.entities.RegisterRequest
 import com.example.todolist.databinding.FragmentRegisterBinding
 import com.example.todolist.presentation.ui.viewModels.RegisterViewModel
 import com.example.todolist.utils.DatePickerFragment
+import com.example.todolist.utils.FragmentCommunicator
+import com.example.todolist.utils.Response
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private val viewModel by viewModels<RegisterViewModel>()
+    private lateinit var communicator: FragmentCommunicator
     lateinit var pickImageView: ImageView
     private val pickerMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { media ->
         if (media!=null) {
@@ -35,6 +39,7 @@ class RegisterFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)
+        communicator = requireActivity() as FragmentCommunicator
         setupView()
         return binding.root
     }
@@ -61,7 +66,37 @@ class RegisterFragment : Fragment() {
                 binding.passwordTil.helperText = "obligatorio"
             }
         }
+        binding.signUpButton.setOnClickListener {
+            requestSignUp()
+        }
     }
+
+    private fun requestSignUp() {
+        viewModel.register(createParameters()).observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> {
+                    communicator.showLoader(true)
+                }
+                is Response.Success -> {
+                    communicator.showLoader(false)
+                    communicator.showMessageAlert("Felicidades", "Tu cuenta se ha creado")
+                }
+                is Response.Failure -> {
+                    communicator.showLoader(false)
+                    communicator.showMessageAlert("Ups!", response.message)
+                }
+            }
+        }
+    }
+
+    private fun createParameters() = RegisterRequest(
+        binding.emailTiet.text.toString(),
+        binding.lastNameTiet.text.toString(),
+        binding.userNameTiet.text.toString(),
+        binding.bornDateTiet.text.toString(),
+        binding.emailTiet.text.toString(),
+        binding.passwordTiet.text.toString()
+    )
 
     private fun validPassword(): CharSequence? {
         val passswordText = binding.passwordTiet.text.toString()

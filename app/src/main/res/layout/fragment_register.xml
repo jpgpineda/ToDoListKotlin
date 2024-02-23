@@ -19,10 +19,11 @@
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_marginTop="32dp"
+            android:scaleType="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/camera_icon" />
+            android:src="@drawable/camera_icon"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameTil"
@@ -56,6 +57,7 @@
             app:layout_constraintTop_toBottomOf="@+id/nameTil">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lastNameTiet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -75,6 +77,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lastNameTil">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userNameTiet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"

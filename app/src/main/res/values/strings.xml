@@ -14,5 +14,6 @@
     <string name="confirmPasswordHint">Confirma tu contraseña:</string>
     <string name="signUp">Registrarse</string>
     <string name="required">Obligatorio</string>
-
+    <string name="signInDescription">Inicia sesión para continuar</string>
+    <string name="forgotPassword">¿Olvidaste tu contraseña?</string>
 </resources>
