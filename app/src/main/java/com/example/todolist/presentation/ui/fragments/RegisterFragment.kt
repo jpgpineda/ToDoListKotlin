@@ -11,6 +11,8 @@ import android.widget.ImageView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.todolist.R
 import com.example.todolist.data.entities.RegisterRequest
 import com.example.todolist.databinding.FragmentRegisterBinding
 import com.example.todolist.presentation.ui.viewModels.RegisterViewModel
@@ -68,6 +70,9 @@ class RegisterFragment : Fragment() {
         }
         binding.signUpButton.setOnClickListener {
             requestSignUp()
+        }
+        binding.registerBackButton.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_welcomeFragment)
         }
     }
 
