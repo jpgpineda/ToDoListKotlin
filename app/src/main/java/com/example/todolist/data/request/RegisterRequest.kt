@@ -1,6 +1,4 @@
-package com.example.todolist.data.entities
-
-import java.util.Date
+package com.example.todolist.data.request
 
 data class RegisterRequest(
     val name: String,

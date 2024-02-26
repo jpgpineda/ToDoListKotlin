@@ -1,5 +1,6 @@
 package com.example.todolist.presentation.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -13,8 +14,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
-import com.example.todolist.data.entities.RegisterRequest
+import com.example.todolist.data.request.LoginRequest
+import com.example.todolist.data.request.PersonalInfoRequest
+import com.example.todolist.data.request.RegisterRequest
 import com.example.todolist.databinding.FragmentRegisterBinding
+import com.example.todolist.presentation.ui.activities.HomeActivity
 import com.example.todolist.presentation.ui.viewModels.RegisterViewModel
 import com.example.todolist.utils.DatePickerFragment
 import com.example.todolist.utils.FragmentCommunicator
@@ -77,7 +81,8 @@ class RegisterFragment : Fragment() {
     }
 
     private fun requestSignUp() {
-        viewModel.register(createParameters()).observe(viewLifecycleOwner) { response ->
+        val parameters = createParameters()
+        viewModel.register(parameters).observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Loading -> {
                     communicator.showLoader(true)
@@ -85,6 +90,48 @@ class RegisterFragment : Fragment() {
                 is Response.Success -> {
                     communicator.showLoader(false)
                     communicator.showMessageAlert("Felicidades", "Tu cuenta se ha creado")
+                    requestLogin(parameters = LoginRequest(parameters.email, parameters.password))
+                }
+                is Response.Failure -> {
+                    communicator.showLoader(false)
+                    communicator.showMessageAlert("Ups!", response.message)
+                }
+            }
+        }
+    }
+
+    fun requestLogin(parameters: LoginRequest) {
+        viewModel.login(parameters).observe(viewLifecycleOwner) { response ->
+            when(response) {
+                is Response.Loading -> {
+                    communicator.showLoader(true)
+                }
+
+                is Response.Success -> {
+                    communicator.showLoader(false)
+                    savePersonalInfo()
+                }
+
+                is Response.Failure -> {
+                    communicator.showLoader(false)
+                    communicator.showMessageAlert("Ups!", response.message)
+                }
+            }
+        }
+    }
+
+    private fun savePersonalInfo() {
+        viewModel.savePersonalInfo(createPersonalRequest()).observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> {
+                    communicator.showLoader(true)
+                }
+                is Response.Success -> {
+                    communicator.showLoader(false)
+                    communicator.showMessageAlert("Felicidades", "Tu informacion se ha guardado correctamente")
+                    val intent = Intent(activity, HomeActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
                 }
                 is Response.Failure -> {
                     communicator.showLoader(false)
@@ -101,6 +148,13 @@ class RegisterFragment : Fragment() {
         binding.bornDateTiet.text.toString(),
         binding.emailTiet.text.toString(),
         binding.passwordTiet.text.toString()
+    )
+
+    private fun createPersonalRequest() = PersonalInfoRequest(
+        binding.nameTiet.text.toString(),
+        binding.lastNameTiet.text.toString(),
+        binding.userNameTiet.text.toString(),
+        binding.bornDateTiet.text.toString(),
     )
 
     private fun validPassword(): CharSequence? {

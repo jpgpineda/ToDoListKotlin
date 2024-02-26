@@ -99,4 +99,7 @@ dependencies {
 
      // Lottie
     implementation("com.airbnb.android:lottie:4.2.2")
+
+    // reflection
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
 }
