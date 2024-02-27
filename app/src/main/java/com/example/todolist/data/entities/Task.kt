@@ -1,5 +1,6 @@
 package com.example.todolist.data.entities
 
+import com.example.todolist.utils.interfaces.Mappable
 import java.util.Date
 
 data class Task(
@@ -8,7 +9,7 @@ data class Task(
     val description: String,
     val dueDate: Date,
     val isCompleted: Boolean
-)
+): Mappable
 
 //enum class TaskStatus(rawValue: String) {
 //    COMPLETED("completo"),

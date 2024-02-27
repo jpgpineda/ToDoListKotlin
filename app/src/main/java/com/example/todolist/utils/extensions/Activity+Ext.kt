@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 fun Activity.hideKeyboard() {
     hideKeyboard(currentFocus ?: View(this))
@@ -18,7 +19,7 @@ fun Context.hideKeyboard(view: View) {
 fun Context.alert(dialogBuilder: MaterialAlertDialogBuilder.() -> Unit) {
     MaterialAlertDialogBuilder(this)
         .apply {
-            setCancelable(false)
+            setCancelable(true)
             dialogBuilder()
             create()
             show()

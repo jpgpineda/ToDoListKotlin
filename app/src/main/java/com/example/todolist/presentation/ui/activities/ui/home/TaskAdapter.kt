@@ -35,4 +35,14 @@ class TaskAdapter(private val taskList: MutableList<Task>): RecyclerView.Adapter
 //            }
 //        }
     }
+
+    fun clearRecycler() {
+        taskList.clear()
+        notifyDataSetChanged()
+    }
+
+    fun add(tasks: List<Task>) {
+        taskList.addAll(tasks)
+        notifyDataSetChanged()
+    }
 }

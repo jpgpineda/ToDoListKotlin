@@ -21,4 +21,10 @@
     <string name="title_user">Usuario</string>
     <string name="title_users">Usuarios</string>
     <string name="ups">Ups!!</string>
+    <string name="add_task">Agregar tarea</string>
+    <string name="save">Guardar</string>
+    <string name="title_hint">Titulo:</string>
+    <string name="description_hint">Descripcion:</string>
+    <string name="due_date_hint">Fecha de entrega:</string>
+    <string name="tasks">Tareas</string>
 </resources>
