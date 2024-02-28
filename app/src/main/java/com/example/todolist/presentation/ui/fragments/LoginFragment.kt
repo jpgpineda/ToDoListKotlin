@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.todolist.R
 import com.example.todolist.data.request.LoginRequest
+import com.example.todolist.data.sharedPref.SharedPref
 import com.example.todolist.databinding.FragmentLoginBinding
 import com.example.todolist.presentation.ui.activities.HomeActivity
 import com.example.todolist.presentation.ui.viewModels.LoginViewModel
@@ -44,15 +45,18 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             requestLogin()
         }
+        binding.loginEmailTiet.setText(SharedPref.lastSignedUser)
     }
 
     private fun requestLogin() {
-        viewModel.login(createLoginParameters()).observe(viewLifecycleOwner) { response ->
+        val parameters = createLoginParameters()
+        viewModel.login(parameters).observe(viewLifecycleOwner) { response ->
             when(response) {
                 is Response.Loading -> {
                     communicator.showLoader(true)
                 }
                 is Response.Success -> {
+                    SharedPref.saveLastSignedUser(parameters.email)
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
@@ -62,7 +66,6 @@ class LoginFragment : Fragment() {
                     communicator.showMessageAlert(getString(R.string.ups), response.message)
                 }
             }
-
         }
     }
 

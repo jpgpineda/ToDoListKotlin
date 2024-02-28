@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_navigation_home_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
+        <argument
+            android:name="isUpdateNeeded"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 
     <fragment

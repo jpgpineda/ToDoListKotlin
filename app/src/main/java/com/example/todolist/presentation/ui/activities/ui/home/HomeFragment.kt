@@ -30,6 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var communicator: FragmentCommunicator
     private lateinit var adapter: TaskAdapter
     private val viewModel by viewModels<HomeViewModel>()
+    private val args: HomeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +45,7 @@ class HomeFragment : Fragment() {
 
     private fun setupView() {
         binding.taskRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        adapter = TaskAdapter(mutableListOf())
+        adapter = TaskAdapter(mutableListOf(), { onTaskSelected(it) })
         binding.taskRecyclerView.adapter = adapter
         binding.addTaskButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_addTaskFragment)
@@ -52,8 +53,12 @@ class HomeFragment : Fragment() {
         bind()
     }
 
+    private fun onTaskSelected(task: Task) {
+        makeToast(task.title)
+    }
+
     private fun bind() {
-        viewModel.getTask().observe(viewLifecycleOwner) { response ->
+        viewModel.getTask(args.isUpdateNeeded).observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Loading -> {
                     communicator.showLoader(true)
@@ -64,11 +69,25 @@ class HomeFragment : Fragment() {
                     adapter.clearRecycler()
                     viewModel.getTaskList.value?.let { tasks ->
                         adapter.add(tasks)
+                        saveTaskLocally(tasks)
                     }
                 }
                 is Response.Failure -> {
                     communicator.showLoader(false)
                     makeToast(response.message, Toast.LENGTH_LONG)
+                }
+            }
+        }
+    }
+
+    private fun saveTaskLocally(tasks: List<Task>) {
+        viewModel.saveTaskLocally(tasks).observe(viewLifecycleOwner) { response ->
+            when(response) {
+                is Response.Failure -> {
+                    snack(response.message)
+                }
+                else -> {
+                    snack(getString(R.string.data_saved_successfully))
                 }
             }
         }

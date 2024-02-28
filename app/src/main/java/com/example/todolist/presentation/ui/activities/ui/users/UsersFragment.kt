@@ -6,37 +6,59 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.databinding.FragmentUsersBinding
+import com.example.todolist.utils.FragmentCommunicator
+import com.example.todolist.utils.Response
+import com.example.todolist.utils.extensions.snack
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UsersFragment : Fragment() {
 
-    private var _binding: FragmentUsersBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentUsersBinding
+    private val viewModel by viewModels<UsersViewModel>()
+    private lateinit var adapter: CharacterAdapter
+    private lateinit var communicator: FragmentCommunicator
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val usersViewModel =
-            ViewModelProvider(this).get(UsersViewModel::class.java)
-
-        _binding = FragmentUsersBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textNotifications
-        usersViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        binding = FragmentUsersBinding.inflate(inflater, container, false)
+        communicator = requireActivity() as FragmentCommunicator
+        setupView()
+        bind()
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun setupView() {
+        binding.RvCharacters.layoutManager = LinearLayoutManager(requireActivity())
+        adapter = CharacterAdapter(mutableListOf())
+        binding.RvCharacters.adapter = adapter
+    }
+
+    private fun bind() {
+        viewModel.getCharacters().observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> {
+                    communicator.showLoader(true)
+                }
+                is Response.Success -> {
+                    communicator.showLoader(false)
+                    response.data.body()?.results?.let { viewModel.setData(it) }
+                    adapter.clearData()
+                    viewModel.charactersList.value?.let { tasks ->
+                        adapter.add(tasks)
+                    }
+                }
+                is Response.Failure -> {
+                    snack(response.message)
+                }
+            }
+        }
     }
 }

@@ -72,7 +72,7 @@ class AddTaskFragment : Fragment() {
                 is Response.Success -> {
                     communicator.showLoader(false)
                     makeToast(getString(R.string.task_saved_successfully))
-                    findNavController().navigate(R.id.action_addTaskFragment_to_navigation_home)
+                    findNavController().navigate(AddTaskFragmentDirections.actionAddTaskFragmentToNavigationHome(true))
                 }
                 is Response.Failure -> {
                     communicator.showLoader(false)

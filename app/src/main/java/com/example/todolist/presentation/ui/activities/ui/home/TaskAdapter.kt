@@ -10,7 +10,10 @@ import com.example.todolist.databinding.TaskCellBinding
 import com.example.todolist.utils.extensions.shortDate
 import com.google.android.gms.tasks.Tasks
 
-class TaskAdapter(private val taskList: MutableList<Task>): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(
+    private val taskList: MutableList<Task>,
+    private val onClickListener:(Task) -> Unit
+): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val binding = TaskCellBinding.bind(view)
     }
@@ -28,6 +31,9 @@ class TaskAdapter(private val taskList: MutableList<Task>): RecyclerView.Adapter
         holder.binding.taskDescription.text = task.description
         holder.binding.taskDueDate.text = task.dueDate.toDate().shortDate()
         if (task.isCompleted) { holder.binding.tasktStatusImage.setImageResource(R.drawable.check_icon) } else { holder.binding.tasktStatusImage.setImageResource(R.drawable.unchecked_icon) }
+        holder.itemView.setOnClickListener {
+            onClickListener(task)
+        }
 //        TaskStatus.typeStatus(task.status)?.let {
 //            when(it) {
 //                TaskStatus.COMPLETED -> holder.binding.tasktStatusImage.setImageResource(R.drawable.check_icon)

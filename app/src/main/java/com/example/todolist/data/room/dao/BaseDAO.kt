@@ -3,6 +3,7 @@ package com.example.todolist.data.room.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.RawQuery
 import androidx.room.Update
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -13,8 +14,8 @@ abstract class BaseDAO<T>(private val tableName: String) {
     @Insert
     abstract fun insert(model: T)
 
-    @Insert
-    abstract fun insertModels(models: T)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertModels(models: List<T>)
 
     @RawQuery
     abstract fun deleteAllModels(query: SupportSQLiteQuery): Int

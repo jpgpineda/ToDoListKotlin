@@ -1,5 +1,6 @@
 package com.example.todolist.presentation.ui.activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,10 +14,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class OnboardingActivity : AppCompatActivity(), FragmentCommunicator {
     private lateinit var binding: ActivityOnboardingBinding
+
+    companion object {
+        lateinit var appContext: Context
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appContext = this
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
     }
 
