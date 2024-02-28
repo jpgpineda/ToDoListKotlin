@@ -30,7 +30,6 @@ class HomeFragment : Fragment() {
     private lateinit var communicator: FragmentCommunicator
     private lateinit var adapter: TaskAdapter
     private val viewModel by viewModels<HomeViewModel>()
-    val args: HomeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,12 +39,6 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         communicator = requireActivity() as FragmentCommunicator
         setupView()
-        val isTaskSaved = args.isTaskSaved
-        val id = args.taskId
-        if (isTaskSaved) {
-            Log.i("Info", "Actualizar recyclerView")
-            Log.i("Info", id)
-        }
         return binding.root
     }
 

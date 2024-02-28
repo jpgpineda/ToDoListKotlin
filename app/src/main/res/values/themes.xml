@@ -21,6 +21,16 @@
 
     <style name="datePickerTheme" parent="android:Theme.Material.Light.Dialog">
         <item name="android:colorAccent">@color/purple_700</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/datePickerButtonPositive</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/datePickerButtonNegative</item>
+    </style>
+
+    <style name="datePickerButtonPositive" parent="android:Widget.Material.Button.Borderless">
+        <item name="android:textColor">@color/purple_700</item>
+    </style>
+
+    <style name="datePickerButtonNegative" parent="android:Widget.Material.Button.Borderless">
+        <item name="android:textColor">@color/red</item>
     </style>
 
     <style name="plainLightTextTitle" parent="Widget.MaterialComponents.TextView">

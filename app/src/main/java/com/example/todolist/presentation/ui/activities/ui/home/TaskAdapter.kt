@@ -26,7 +26,7 @@ class TaskAdapter(private val taskList: MutableList<Task>): RecyclerView.Adapter
         val task = taskList[position]
         holder.binding.taskTitle.text = task.title
         holder.binding.taskDescription.text = task.description
-        holder.binding.taskDueDate.text = task.dueDate.shortDate()
+        holder.binding.taskDueDate.text = task.dueDate.toDate().shortDate()
         if (task.isCompleted) { holder.binding.tasktStatusImage.setImageResource(R.drawable.check_icon) } else { holder.binding.tasktStatusImage.setImageResource(R.drawable.unchecked_icon) }
 //        TaskStatus.typeStatus(task.status)?.let {
 //            when(it) {

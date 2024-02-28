@@ -23,7 +23,9 @@ import com.example.todolist.presentation.ui.viewModels.RegisterViewModel
 import com.example.todolist.utils.DatePickerFragment
 import com.example.todolist.utils.FragmentCommunicator
 import com.example.todolist.utils.Response
+import com.example.todolist.utils.extensions.dateToTimeStamp
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -31,6 +33,7 @@ class RegisterFragment : Fragment() {
     private val viewModel by viewModels<RegisterViewModel>()
     private lateinit var communicator: FragmentCommunicator
     lateinit var pickImageView: ImageView
+    val calendar = Calendar.getInstance()
     private val pickerMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { media ->
         if (media!=null) {
             pickImageView.setImageURI(media)
@@ -154,7 +157,7 @@ class RegisterFragment : Fragment() {
         binding.nameTiet.text.toString(),
         binding.lastNameTiet.text.toString(),
         binding.userNameTiet.text.toString(),
-        binding.bornDateTiet.text.toString(),
+        calendar.time.dateToTimeStamp(),
     )
 
     private fun validPassword(): CharSequence? {
@@ -188,6 +191,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun onDateSelected(day: Int, month: Int, year: Int) {
+        calendar.set(year, month, day)
         binding.bornDateTiet.setText("$day/$month/$year")
     }
 }

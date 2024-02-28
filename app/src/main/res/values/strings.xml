@@ -27,4 +27,5 @@
     <string name="description_hint">Descripcion:</string>
     <string name="due_date_hint">Fecha de entrega:</string>
     <string name="tasks">Tareas</string>
+    <string name="task_saved_successfully">Tu tarea se ha agregado correctamente</string>
 </resources>

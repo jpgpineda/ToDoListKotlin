@@ -96,6 +96,8 @@
                 android:id="@+id/dueDateTiet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
                 android:hint="@string/due_date_hint" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -9,6 +9,6 @@ fun QueryDocumentSnapshot.createTaskFromQuery() = Task(
     id = getString(FirebaseConstants.ID) ?: "",
     title = getString(FirebaseConstants.TITLE) ?: "",
     description = getString(FirebaseConstants.DESCRIPTION) ?: "",
-    dueDate = getDate(FirebaseConstants.DUE_DATE) ?: Date(),
+    dueDate = getDate(FirebaseConstants.DUE_DATE)?.dateToTimeStamp() ?: Date().dateToTimeStamp(),
     isCompleted = getBoolean(FirebaseConstants.ISCOMPLETED) ?: false
 )

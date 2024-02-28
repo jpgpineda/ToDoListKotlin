@@ -3,6 +3,7 @@ package com.example.todolist.data.repository
 import com.example.todolist.data.request.PersonalInfoRequest
 import com.example.todolist.data.request.RegisterRequest
 import com.example.todolist.utils.Response
+import com.example.todolist.utils.constants.FirebaseConstants
 import com.example.todolist.utils.extensions.getDefaultErrorMessage
 import javax.inject.Inject
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +21,7 @@ class RegisterRepository @Inject constructor(
         emit(Response.Loading())
 
         val response = kotlin.runCatching {
-            auth.createUserWithEmailAndPassword(parameters.email, parameters.password)
+            auth.createUserWithEmailAndPassword(parameters.email, parameters.password).await()
         }
 
         emit(response.fold(
@@ -38,7 +39,7 @@ class RegisterRepository @Inject constructor(
         emit(Response.Loading())
         val response = kotlin.runCatching {
             auth.currentUser?.let {
-                db.collection("USERS").document(it.uid).set(parameters.propertiesToMap(), SetOptions.merge()).await()
+                db.collection(FirebaseConstants.USERS_COLLECTION).document(it.uid).set(parameters.propertiesToMap(), SetOptions.merge()).await()
             }
         }
 

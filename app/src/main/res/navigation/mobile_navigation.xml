@@ -13,14 +13,6 @@
         <action
             android:id="@+id/action_navigation_home_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
-        <argument
-            android:name="isTaskSaved"
-            app:argType="boolean"
-            android:defaultValue="false" />
-        <argument
-            android:name="taskId"
-            app:argType="string"
-            android:defaultValue="@string/save" />
     </fragment>
 
     <fragment
